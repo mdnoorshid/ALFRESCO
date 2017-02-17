@@ -12,6 +12,8 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +22,12 @@ import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.ItemIterable;
+import org.apache.chemistry.opencmis.client.api.ObjectFactory;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.apache.chemistry.opencmis.commons.data.Ace;
+import org.apache.chemistry.opencmis.commons.data.Acl;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.apache.chemistry.opencmis.commons.enums.Action;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
@@ -394,7 +399,63 @@ public void createLinkForDocument(String sourceFolderPath, String documentName, 
 	        logger.debug("Link Created for Document successfully.....");
 	    
 	} catch (FileNotFoundException e) {
-		throw new AlfrescoException("There is no file not found exception",e); 
+		throw new AlfrescoException("There is  file not found exception",e); 
 	}
 }//end of createLinkForDocument method
+/**
+ * This method is to create user based permission
+ * @param sourcePath: The source path of cmis object either may be document or folder for which the permission has to set
+ * @param objectType: Type of Object either may be Document or Folder
+ * @param userName: User Name for which the permission has to set
+ * @param permissionType: Setting type of Permission for the object like all,reading,writing
+ * @throws AlfrescoException 
+ */
+public void createUserBasedPermission(String sourcePath,String objectType,String userName,String permissionType) throws AlfrescoException {
+	try {
+		Session session=AlfrescoConnection.getSession();
+		Folder rootFolder=session.getRootFolder();
+		Folder sourceFolder=null;
+		Document document=null;
+		logger.info("Root Folder id and Path: "+rootFolder.getId()+", "+rootFolder.getPath());
+		CmisObject cmisObject=null;
+		if(objectType.equalsIgnoreCase("folder")){
+		sourceFolder=(Folder) session.getObjectByPath(rootFolder.getPath()+sourcePath);
+		 logger.info("sourceFolder ID and Path "+sourceFolder.getId()+" , "+sourceFolder.getPath());
+		 cmisObject=session.getObject(sourceFolder.getId());
+		}else if(objectType.equalsIgnoreCase("document")){
+			document=(Document) session.getObjectByPath(rootFolder.getPath()+sourcePath);
+			 cmisObject=session.getObject(document.getId());
+		}
+		 //Creating cmis Object
+		 logger.debug("cmis object has been created succesfully:: "+cmisObject.toString());;
+		
+		 //Creating Object Factory
+		 ObjectFactory objectFactory=session.getObjectFactory();
+		//Defining principal(User) to whom the acl should be applied
+		 String principal=userName;
+		 //Creating ace --->access control entries for particular principal
+		 Ace ace=null;
+		 if(permissionType.equalsIgnoreCase("read")){
+		    ace=objectFactory.createAce(principal, Collections.singletonList(CMIS_PERMISSION_READ));
+		 }else if(permissionType.equalsIgnoreCase("write")){
+		    ace=objectFactory.createAce(principal, Collections.singletonList(CMIS_PERMISSION_WRITE));	 
+		 }else if(permissionType.equalsIgnoreCase("all")){
+			 ace=objectFactory.createAce(principal, Collections.singletonList(CMIS_PERMISSION_ALL));	  
+		 }
+		 //Adding the ace to the list
+		 List<Ace>addAces=new ArrayList<Ace>();
+		 addAces.add(ace);
+		 
+		 //Setting Acl
+		  cmisObject.setAcl(addAces);
+		  logger.info("Acl applied successfully.....for principal--->User "+principal);
+		   
+		  Acl acl=session.getAcl(cmisObject, true);
+		  logger.debug("acl:: "+acl);
+		
+	} catch (FileNotFoundException e) {
+		throw new AlfrescoException("There is  file not found exception",e); 
+	}
+	
+}//end of createUserBasedPermission method
 }

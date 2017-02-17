@@ -3,8 +3,8 @@ package com.key2act.alfresco;
 import com.key2act.alfresco.util.FileNotFoundException;
 
 /**
- * This interface contains all methods for alfresco
- * @author deepalisingh
+ * This interface is contract for alfresco
+ * @author bizruntime
  *
  */
 public interface IAlfresco {
@@ -30,4 +30,6 @@ public interface IAlfresco {
 	void createLinkForFolder(String sourceFolderPath,String destinationFolderName,String linkName,String linkDescription) throws AlfrescoException;
 	//Method have to implement for creating link for document
 	void createLinkForDocument(String sourceFolderPath,String documentName,String destinationFolderName,String linkName,String linkDescription) throws AlfrescoException;
-}
+	//Method have to implement for user_based permission
+	void createUserBasedPermission(String sourcePath,String objectType,String userName,String permissionType) throws AlfrescoException;
+	}

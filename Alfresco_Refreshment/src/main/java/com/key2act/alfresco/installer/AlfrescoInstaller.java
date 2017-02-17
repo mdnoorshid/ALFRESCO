@@ -28,5 +28,6 @@ public static void main(String[] args) throws AlfrescoException, FileNotFoundExc
 //alfresco.deleteFolder("Test Alfresco");		
 //alfresco.ceateLinkForFolder("Noorshid","Test","linkTest","This is the test for link");
 //	alfresco.createLinkForDocument("Noorshid/SAC-APPLICATION", "Alfresco.pdf", "Test","DocumentLink","This is the document link");
+	alfresco.createUserBasedPermission("Noorshid/SAC-APPLICATION/Alfresco.pdf","document", "noorshid","all");
 }
 }

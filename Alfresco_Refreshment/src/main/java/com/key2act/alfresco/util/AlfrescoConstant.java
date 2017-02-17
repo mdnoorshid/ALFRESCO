@@ -10,4 +10,7 @@ public final static String DOCUMENT_OBJECT_TYPE_ID="cmis:document";
 public final static String LINK_DESCRIPTION_OBJECT="cm:destination";
 public final static String FILE_LINK="I:app:filelink";
 public final static String LINK_DESTINATION_OBJECT="cm:destination";
+public final static String CMIS_PERMISSION_ALL="cmis:all";
+public final static String CMIS_PERMISSION_READ="cmis:read";
+public final static String CMIS_PERMISSION_WRITE="cmis:write";
 }
