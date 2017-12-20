@@ -41,7 +41,7 @@ abstract public class BasePublicAPI {
 	public static final String PEOPLE_URL = "/public/alfresco/versions/1/people";
 	public static final String GROUP_URL = "/public/alfresco/versions/1/groups/";
 	public static final String SITE_URL = "/public/alfresco/versions/1/sites";
-	public static final String QUERIES="/public/alfresco/versions/1/queries/";
+	public static final String QUERIES = "/public/alfresco/versions/1/queries/";
 
 	private String homeNetwork;
 
@@ -369,12 +369,14 @@ abstract public class BasePublicAPI {
 
 	/**
 	 * This method is to make favorite for any site
+	 * 
 	 * @param siteId
 	 *            : SiteId which need to make favorite
-	 * @param personId: Person Id for which site has to make favorite           
+	 * @param personId:
+	 *            Person Id for which site has to make favorite
 	 * @throws UnableToCreateFavoriteException
 	 */
-	public int createFavouriteSite(String siteId,String personId) throws UnableToCreateFavoriteException {
+	public int createFavouriteSite(String siteId, String personId) throws UnableToCreateFavoriteException {
 		HttpRequest request;
 		HttpResponse response;
 		HttpContent contentBody;
@@ -383,12 +385,12 @@ abstract public class BasePublicAPI {
 		int statusCode;
 		try {
 			String homeNetwork = getHomeNetwork();
-			String URL = getAlfrescoAPIUrl() + homeNetwork + PEOPLE_URL + "/" +personId+ "/favorite-sites";
+			String URL = getAlfrescoAPIUrl() + homeNetwork + PEOPLE_URL + "/" + personId + "/favorite-sites";
 			genericUrl = new GenericUrl(URL);
 			requestBodyObj1 = new JSONObject();
-			requestBodyObj1.put("id",siteId);
+			requestBodyObj1.put("id", siteId);
 			JSONArray finalBodyRequest = new JSONArray().put(requestBodyObj1);
-			logger.debug("finalBodyRequest:: "+finalBodyRequest);
+			logger.debug("finalBodyRequest:: " + finalBodyRequest);
 			contentBody = new ByteArrayContent("application/json", finalBodyRequest.toString().getBytes());
 			request = getRequestFactory().buildPostRequest(genericUrl, contentBody);
 			statusCode = request.execute().getStatusCode();
@@ -544,8 +546,44 @@ abstract public class BasePublicAPI {
 				logger.info("====RESQUEST CREATED SUCCESSFULLY====");
 			}
 		} catch (IOException e) {
+			throw new MemberShipRequestException("There is Exception in requesting membership request for Site", e);
+		}
+	}
+    
+	/**
+	 * This method is to create site Membership By Admin
+	 * @param siteId : Target site id
+	 * @param personId : Target Person
+	 * @param role  : Role Assigned for the target site SiteConsumer,SiteCollaborator,SiteContributor,SiteManager
+	 * @return
+	 * @throws MemberShipRequestException
+	 */
+	public int createSiteMembershipRequest(String siteId, String personId, String role)
+			throws MemberShipRequestException {
+		HttpRequest request;
+		HttpResponse response;
+		HttpContent content;
+		JSONArray finalJsonArrBody;
+		GenericUrl genericUrl;
+		int requestStatus;
+		try {
+			String homeNetwork = getHomeNetwork();
+			String URL = getAlfrescoAPIUrl() + homeNetwork + SITE_URL + "/" + siteId + "/members";
+			logger.debug("URL:: "+URL);
+			genericUrl = new GenericUrl(URL);
+			JSONObject requestObj = new JSONObject();
+			requestObj.put("id", personId);
+			requestObj.put("role", role);
+			finalJsonArrBody = new JSONArray().put(requestObj);
+			content = new ByteArrayContent("application/json", finalJsonArrBody.toString().getBytes());
+			request = getRequestFactory().buildPostRequest(genericUrl, content);
+			requestStatus = request.execute().getStatusCode();
+
+		} catch (IOException e) {
 			throw new MemberShipRequestException("There is Exception in creating membership request for Site", e);
 		}
+		return requestStatus;
+
 	}
 
 	/**
@@ -597,25 +635,26 @@ abstract public class BasePublicAPI {
 		}
 		return response.getStatusCode();
 	}
-	
+
 	/**
 	 * Method to get the activities of a User
+	 * 
 	 * @return
 	 * @throws ActiviesException
 	 */
-	public String getActivities() throws ActiviesException{
+	public String getActivities() throws ActiviesException {
 		HttpRequest request;
 		HttpResponse response;
 		GenericUrl genericUrl;
 		String responseBody;
 		try {
-			String homeNetwork=getHomeNetwork();
-			String URL=getAlfrescoAPIUrl()+homeNetwork+PEOPLE_URL+"/-me-/"+"activities";
-			genericUrl=new GenericUrl(URL);
-			request=getRequestFactory().buildGetRequest(genericUrl);
+			String homeNetwork = getHomeNetwork();
+			String URL = getAlfrescoAPIUrl() + homeNetwork + PEOPLE_URL + "/-me-/" + "activities";
+			genericUrl = new GenericUrl(URL);
+			request = getRequestFactory().buildGetRequest(genericUrl);
 			responseBody = request.execute().parseAsString();
 		} catch (IOException e) {
-			throw new ActiviesException("There is exception in getting the activities",e);
+			throw new ActiviesException("There is exception in getting the activities", e);
 		}
 		return responseBody;
 	}
@@ -659,27 +698,29 @@ abstract public class BasePublicAPI {
 		request.execute();
 		logger.info("You commented on: " + objectId);
 	}
-	
+
 	/**
 	 * This method is to get the node queries
-	 * @throws QueryExceptio 
+	 * 
+	 * @throws QueryExceptio
 	 */
-	public String getNodesQueries(String searchString,String rootFolder) throws QueryExceptio{
+	public String getNodesQueries(String searchString, String rootFolder) throws QueryExceptio {
 		HttpRequest request;
 		String responseBody;
 		GenericUrl genericUrl;
 		String homeNetwork;
 		try {
 			homeNetwork = getHomeNetwork();
-			String URL=getAlfrescoAPIUrl()+homeNetwork+QUERIES+"nodes?term="+searchString+"&rootNodeId="+rootFolder;
-			genericUrl=new GenericUrl(URL);
-			request=getRequestFactory().buildGetRequest(genericUrl);
-			responseBody=request.execute().parseAsString();
+			String URL = getAlfrescoAPIUrl() + homeNetwork + QUERIES + "nodes?term=" + searchString + "&rootNodeId="
+					+ rootFolder;
+			genericUrl = new GenericUrl(URL);
+			request = getRequestFactory().buildGetRequest(genericUrl);
+			responseBody = request.execute().parseAsString();
 		} catch (IOException e) {
-			throw new QueryExceptio("There is Exception in getting Node",e);
+			throw new QueryExceptio("There is Exception in getting Node", e);
 		}
 		return responseBody;
-		
+
 	}
 
 	public String getSite() {

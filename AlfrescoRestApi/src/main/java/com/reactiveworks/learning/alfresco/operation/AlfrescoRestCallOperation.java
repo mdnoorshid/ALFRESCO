@@ -363,6 +363,26 @@ public class AlfrescoRestCallOperation extends BaseOnPrem {
 			throw new SiteCreationException("There is exception in creating site ", e);
 		}
 	}
+	
+	/**
+	 * This method is to create site Membership By Admin
+	 * @param siteId : Target site id
+	 * @param personId : Target Person
+	 * @param role  : Role Assigned for the target site SiteConsumer,SiteCollaborator,SiteContributor,SiteManager
+	 * @return
+	 * @throws MemberShipRequestException
+	 */
+	public void createSiteMembershipByAdmin(String siteId,String personId,String role) throws MemberShipRequestException{
+		try {
+			int status = createSiteMembershipRequest(siteId, personId, role);
+			if(status==201){
+			logger.info("====MEMBERSHIP FOR "+personId+" IS SUCCESSFULLY CREATED FOR SITE "+siteId+" , AND ROLE ASSIGNED IS "+role+"=====");
+			}
+		} catch (MemberShipRequestException e) {
+			throw new MemberShipRequestException("There is Exception in creating membership request for Site", e);
+		}
+	}
+	
 
 	/**
 	 * Method to create membership request to a site

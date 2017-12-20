@@ -36,34 +36,20 @@ public class AlfrescoInstaller {
 			UnableToCreateFavoriteException, ActiviesException, QueryExceptio {
 		System.out.println("PROGRAM STARTED...");
 		AlfrescoRestCallOperation alfrescoRestCallOperation = new AlfrescoRestCallOperation();
-		// alfrescoRestCallOperation.createComment("/TestFolder", "TestDoc",
-		// "This is rescently liked by admin"); //SUCCESSFUL
-		// alfrescoRestCallOperation.likeDocument("/TestFolder", "TestDoc");
-		// //SUCCESSFUL
-		// alfrescoRestCallOperation.downloadDocument("DocTest","C:\\Users\\Niyamat\\Desktop\\DROPBOX",
-		// "/RestFolder"); //SUCCESSFUL
-		// alfrescoRestCallOperation.createFolderRest("RestFolder");
-		// //SUCCESSFUL
-		// alfrescoRestCallOperation.createSubFolderRest("RestFolder","Rest
-		// SubFolder"); //SUCCESSFUL
-		// alfrescoRestCallOperation.createDocumentUsingRest("RestFolder/Rest
-		// SubFolder", "TestRestDOC5", "This is the test document using REST
-		// API");//SUCCESSFUL
+		// alfrescoRestCallOperation.createComment("/TestFolder", "TestDoc", "This is rescently liked by admin"); //SUCCESSFUL
+		// alfrescoRestCallOperation.likeDocument("/TestFolder", "TestDoc");//SUCCESSFUL
+		// alfrescoRestCallOperation.downloadDocument("DocTest","C:\\Users\\Niyamat\\Desktop\\DROPBOX","/RestFolder"); //SUCCESSFUL
+	  //alfrescoRestCallOperation.createFolderRest("Curt Hamatys");
+		//alfrescoRestCallOperation.createSubFolderRest("RestFolder","RestSubFolder"); //SUCCESSFUL
+		// alfrescoRestCallOperation.createDocumentUsingRest("RestFolder/Rest SubFolder", "TestRestDOC5", "This is the test document using REST API");//SUCCESSFUL
+		//alfrescoRestCallOperation.createUser("mdnoorshid","Md", "Noorshid", "mdnoorshid@gmail.com","9955924034");//SUCCESSFUL
+		// alfrescoRestCallOperation.createGroup("GROUP_REACTIVEWORKS","REACTIVEWORKS");//SUCCESSFUL
 
-		// alfrescoRestCallOperation.createUser("cheta","Chetan", "Pachare",
-		// "chetan.pachare@gmail.com","9955924034");//SUCCESSFUL
+		// alfrescoRestCallOperation.addMemberGroup("GROUP_REACTIVEWORKS","cheta","PERSON");//SUCCESSFUL
 
-		// alfrescoRestCallOperation.createGroup("GROUP_REACTIVEWORKS",
-		// "REACTIVEWORKS");//SUCCESSFUL
+       // alfrescoRestCallOperation.createSite("ACT", "PUBLIC");//SUCCESSFUL
 
-		// alfrescoRestCallOperation.addMemberGroup("GROUP_REACTIVEWORKS",
-		// "cheta","PERSON");//SUCCESSFUL
-
-		// alfrescoRestCallOperation.createSite("TestSite",
-		// "PUBLIC");//SUCCESSFUL
-
-		// alfrescoRestCallOperation.memberRequestSite("deelipa", "Please add
-		// me", "Reactiveworks_Developer", "Request For Adding");//PROBLEM
+		//alfrescoRestCallOperation.memberRequestSite("curt", "Please addme", "ACT", "Request For Adding");//PROBLEM
 		// ITSELF FROM ALFRESCO
 
 		// alfrescoRestCallOperation.getFolderChildInfo("Sites/alfresco-api-demo/documentLibrary/RestFolder");//SUCCESSFUL
@@ -73,14 +59,15 @@ public class AlfrescoInstaller {
 		// alfrescoRestCallOperation.deleteDocument("Sites/alfresco-api-demo/documentLibrary/RestFolder","DocTest");//SUCCESSFUL
 
 		// alfrescoRestCallOperation.removeMemberFromGroup("GROUP_REACTIVEWORKS","rajaD");//SUCCESSFUL
-		// alfrescoRestCallOperation.downloadDocBasedOnVersions("DocTest","1.2",
-		// "C:\\Users\\Niyamat\\Desktop\\DROPBOX", "/RestFolder");
+		// alfrescoRestCallOperation.downloadDocBasedOnVersions("DocTest","1.2","C:\\Users\\Niyamat\\Desktop\\DROPBOX", "/RestFolder");//SUCCESSFUL
 
 		// alfrescoRestCallOperation.makeFavoriteSite("alfresco-api-demo",
 		// "mdnoorshid");//SUCCESSFUL
 		// alfrescoRestCallOperation.getActiviesOfCurrentUser();//SUCCESSFUL
 		// alfrescoRestCallOperation.getNodeQuery("node","Repository"); //Not
 		// properly explained in Alfresco API
+		//alfrescoRestCallOperation.createSiteMembershipByAdmin("act","curt@arista.com","SiteContributor");//SUCCESSFUL
+		
 
 	}
 }

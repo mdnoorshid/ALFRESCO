@@ -53,6 +53,7 @@ public class BaseOnPrem   extends BasePublicAPI {
 	
 	@Override
 	public String getAlfrescoAPIUrl() {
+		logger.debug(".inside getAlfrescoAPIUrl() method.....");
         String host = Config.getConfig().getProperty("host"); //http://localhost:8080/alfresco
         logger.debug("host:: "+host);
         return host + "/api/";
